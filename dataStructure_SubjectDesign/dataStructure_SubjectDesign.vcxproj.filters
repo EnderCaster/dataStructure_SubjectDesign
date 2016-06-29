@@ -16,6 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="dbMain.txt" />
+    <Text Include="dbKind.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
