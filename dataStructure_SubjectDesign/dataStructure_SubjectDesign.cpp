@@ -14,8 +14,10 @@
 #include <string>
 #include <vector>
 #include <Windows.h>
+#define SUCCESS 0
 
 using namespace std;
+typedef int Status;
 int kindCount=0;
 typedef struct Product
 {
@@ -109,7 +111,7 @@ LinkList initLen() {
 	L->Tail->next = NULL;
 	return L;
 }
-void LenInsert(LinkList L, product pro, Idx *index) {
+void LenInsert(LinkList &L, product pro, Idx *index) {
 	LNode *p;
 	p = (LNode *)malloc(sizeof(LNode));
 	p->next = L->Tail;
@@ -185,31 +187,22 @@ void sync(Idx *index) {
 	//ren dbMain_tmp
 	system("ren dbMain_tmp dbMain.txt");
 }
-void findPro(LNode *p,char *proNo,Idx *index) {
+LNode* findPro(char *proNo,Idx *index) {
+	LNode *p = (LNode*)malloc(sizeof(LNode));
 	int low = 0, high = index->length-1;
 	int mid = 0;
 	while (low <= high) {
 		mid = (low + high) / 2;
-		if (strcmp(index->elem[low].index, proNo) == 0) {
-			p = index->elem[low].proNode;
-			cout << "testNode" << endl;
+		if (strcmp(index->elem[mid].index, proNo)==0) {
+			p = index->elem[mid].proNode;//出错在这，没有返回
+			cout << proS(p->data)<<endl;
+			return SUCCESS;
 		}
-		else if (strcmp(index->elem[high].index, proNo) == 0) {
-			p = index->elem[high].proNode;
-			cout << "testNode2" << endl;
-		}
-		mid = low + ((high + low) / 2);
-		if (strcmp(index->elem[low].index, proNo)==0) {
-			p = index->elem[low].proNode;
-			cout << "testNode3" << endl;
-		}
-		if (strcmp(index->elem[mid].index, proNo) < 0) {
+		else if (strcmp(index->elem[mid].index, proNo)<0) {
 			low = mid + 1;
-			cout << "testNode4" << endl;
 		}
 		else {
 			high = mid - 1;
-			cout << "testNode5" << endl;
 		}
 	}
 }
@@ -283,8 +276,8 @@ int main()
 				cout << "请输入商品号" << endl;
 				cin >> proNO;
 				cout << proNO << endl;
-				findPro(proL,proNO, &proIdx);
-				cout << proS(proL->data);
+				proL=findPro(proNO, &proIdx);
+				cout << proS(proL->data)<<endl;
 				switch (menuIdx)
 				{
 				case 1:
