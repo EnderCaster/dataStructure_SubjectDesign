@@ -66,7 +66,7 @@ void Qsort(Idx *index, int low, int high) {
 			--last;
 		}
 		index[first] = index[last];
-		while (first < last&& strcpy_s(index->elem[first].index,key.index) <= 0) {
+		while (first < last&& strcmp(index->elem[first].index,key.index) <= 0) {
 			++first;
 		}
 		index[last] = index[first];
@@ -194,9 +194,8 @@ LNode* findPro(char *proNo,Idx *index) {
 	while (low <= high) {
 		mid = (low + high) / 2;
 		if (strcmp(index->elem[mid].index, proNo)==0) {
-			p = index->elem[mid].proNode;//出错在这，没有返回
-			cout << proS(p->data)<<endl;
-			return SUCCESS;
+			p = index->elem[mid].proNode;
+			return p;
 		}
 		else if (strcmp(index->elem[mid].index, proNo)<0) {
 			low = mid + 1;
@@ -308,6 +307,7 @@ int main()
 		}
 		cout << "进行其它操作吗？(exit退出)";
 		cin >> switchS;
+		system("cls");
 	}
 	exit(0);
 	return 0;
